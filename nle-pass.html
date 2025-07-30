@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLE PASS - Acadepass</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="css/animations.css">
+	<link rel="stylesheet" href="css/Styles.css">
+<link rel="stylesheet" href="css/course-player.css">
+	<script type="module" src="js/auth.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(-45deg, #1a3d2d, #2a0845, #3a1c71, #8f94fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: #4cc9f0;
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a:hover {
+            background: rgba(67, 97, 238, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        nav ul li a i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-login {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-login:hover {
+            background: white;
+            color: #4361ee;
+        }
+        
+        .btn-signup {
+            background: #f72585;
+            color: white;
+            box-shadow: 0 4px 15px rgba(247, 37, 133, 0.4);
+        }
+        
+        .btn-signup:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(247, 37, 133, 0.6);
+        }
+        
+        /* Course Hero */
+        .course-hero {
+            padding: 80px 0 40px;
+            text-align: center;
+position: relative;
+        }
+        
+        .course-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .course-hero p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 200px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #4cc9f0;
+            margin-bottom: 10px;
+        }
+        
+        /* Course Content */
+        .course-content {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: #f72585;
+            border-radius: 2px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+        
+        .content-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .content-img {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .content-info {
+            padding: 25px;
+        }
+        
+        .content-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .content-info ul {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .content-info ul li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .content-info ul li i {
+            color: #4cc9f0;
+            margin-right: 10px;
+        }
+        
+        .btn-access {
+            background: linear-gradient(to right, #4361ee, #3f37c9);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .btn-access:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.6);
+        }
+        
+        .locked .btn-access {
+background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .locked .btn-access:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .locked::after {
+            content: 'Premium Content';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f72585;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        /* Subscription Banner */
+        .subscription-banner {
+            background: linear-gradient(to right, #4361ee, #3f37c9);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subscription-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .subscription-banner p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.2rem;
+        }
+        
+        .btn-subscribe {
+            background: white;
+            color: #4361ee;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-subscribe:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 20, 0.95);
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: white;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #f72585;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            padding: 8px 0;
+        }
+        
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            margin-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background: #4361ee;
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+/* Responsive Design */
+        @media (max-width: 900px) {
+            .course-hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .stats {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: 15px 0;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+            }
+            
+            .course-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .course-hero p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Acadepass</span>
+            </a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="nle-pass.html" class="active"><i class="fas fa-stethoscope"></i> NLE PASS</a></li>
+                    <li><a href="hsk-pass.html"><i class="fas fa-language"></i> HSK PASS</a></li>
+                    <li><a href="english-pass.html"><i class="fas fa-book"></i> English PASS</a></li>
+                </ul>
+            </nav>
+            
+            <div class="auth-buttons">
+                <button class="btn btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Log In</button>
+                <button class="btn btn-signup" id="signupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Course Hero Section -->
+    <section class="course-hero">
+        <div class="container">
+            <h1>NLE PASS Program</h1>
+            <p>Comprehensive preparation for the Nursing Licensure Examination with proven strategies and expert guidance</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="number">98%</div>
+                    <div class="label">Pass Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">200+</div>
+                    <div class="label">Video Lectures</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">5,000+</div>
+                    <div class="label">Practice Questions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Course Content -->
+    <section class="course-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Course Content</h2>
+                <p>Access our comprehensive learning materials designed for NLE success</p>
+            </div>
+            
+            <div class="content-grid">
+                <!-- Video Lectures -->
+                <div class="content-card">
+                    <div class="content-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1581595219318-a04e8b1e4f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+<div class="content-info">
+                        <h3>Video Lectures</h3>
+                        <p>Comprehensive video lessons covering all NLE topics</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 200+ HD video lectures</li>
+                            <li><i class="fas fa-check-circle"></i> Expert instructors</li>
+                            <li><i class="fas fa-check-circle"></i> Downloadable slides</li>
+                            <li><i class="fas fa-check-circle"></i> Lifetime access</li>
+                        </ul>
+                        <button class="btn-access">Access Videos</button>
+                    </div>
+                </div>
+                
+                <!-- Audio Lectures -->
+                <div class="content-card locked">
+                    <div class="content-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+                    <div class="content-info">
+                        <h3>Audio Lectures</h3>
+                        <p>Learn on-the-go with our audio lessons</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 150+ audio lessons</li>
+                            <li><i class="fas fa-check-circle"></i> Key concepts review</li>
+                            <li><i class="fas fa-check-circle"></i> Downloadable MP3s</li>
+                            <li><i class="fas fa-check-circle"></i> Mobile app access</li>
+                        </ul>
+                        <button class="btn-access">Subscribe to Access</button>
+                    </div>
+                </div>
+                
+                <!-- Practice Tests -->
+                <div class="content-card locked">
+                    <div class="content-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+                    <div class="content-info">
+                        <h3>Practice Tests</h3>
+                        <p>Simulate the real NLE experience</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 20 full-length tests</li>
+                            <li><i class="fas fa-check-circle"></i> 5,000+ questions</li>
+                            <li><i class="fas fa-check-circle"></i> Detailed explanations</li>
+                            <li><i class="fas fa-check-circle"></i> Performance analytics</li>
+                        </ul>
+                        <button class="btn-access">Subscribe to Access</button>
+                    </div>
+                </div>
+                
+                <!-- Study Guides -->
+                <div class="content-card">
+                    <div class="content-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+                    <div class="content-info">
+                        <h3>Study Guides</h3>
+                        <p>Comprehensive review materials</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 10 subject guides</li>
+                            <li><i class="fas fa-check-circle"></i> Cheat sheets</li>
+                            <li><i class="fas fa-check-circle"></i> Printable PDFs</li>
+                            <li><i class="fas fa-check-circle"></i> Quick references</li>
+                        </ul>
+                        <button class="btn-access">Download Guides</button>
+                    </div>
+                </div>
+<!-- Q&A Sessions -->
+                <div class="content-card locked">
+                    <div class="content-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');"></div>
+                    <div class="content-info">
+                        <h3>Live Q&A Sessions</h3>
+                        <p>Get your questions answered by experts</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Weekly live sessions</li>
+                            <li><i class="fas fa-check-circle"></i> Direct instructor access</li>
+                            <li><i class="fas fa-check-circle"></i> Session recordings</li>
+                            <li><i class="fas fa-check-circle"></i> Priority question queue</li>
+                        </ul>
+                        <button class="btn-access">Subscribe to Access</button>
+                    </div>
+                </div>
+<!-- Subscription Banner -->
+    <section class="container">
+        <div class="subscription-banner">
+            <h2>Unlock Full NLE PASS Access</h2>
+            <p>Subscribe to our premium plan to access all video lectures, audio lessons, practice tests, and live Q&A sessions. Join thousands of successful nursing graduates!</p>
+            <button class="btn-subscribe">Subscribe Now</button>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Acadepass</h3>
+                    <p>Your partner in exam preparation and language learning success.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="nle-pass.html">NLE PASS</a></li>
+                        <li><a href="hsk-pass.html">HSK PASS</a></li>
+                        <li><a href="english-pass.html">English PASS</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Study Guides</a></li>
+                        <li><a href="#">Practice Tests</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+<div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@acadepass.com</li>
+                        <li><i class="fas fa-phone"></i> +86 186 3122 0252</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Acadepass. All rights reserved.</p><p>DEVOLOPED BY IFTI</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Login functionality
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        
+        loginBtn.addEventListener('click', () => {
+            alert('Redirecting to login page...');
+            // In a real implementation: window.location.href = 'login.html';
+        });
+signupBtn.addEventListener('click', () => {
+            alert('Redirecting to signup page...');
+            // In a real implementation: window.location.href = 'signup.html';
+        });
+        
+        // Locked content functionality
+        document.querySelectorAll('.locked .btn-access').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Premium content requires subscription. Please subscribe to access this content.');
+            });
+        });
+        
+        // Subscription button
+        document.querySelector('.btn-subscribe').addEventListener('click', function() {
+            alert('Redirecting to subscription page...');
+            // In a real implementation: window.location.href = 'subscription.html';
+        });
+        
+        // Background animation enhancement
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            document.body.style.backgroundPosition = 0% ${scrollPosition * 0.3}%;});
+    </script>
+</body>
+</html>

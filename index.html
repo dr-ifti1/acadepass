@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acadepass - Master Your Exams</title>
+    <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/animations.css">
+ 
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+	<script type="module" src="js/auth.js"></script>
+	
+</head>
+<body>
+    <!-- Header -->
+    <header>
+	<button id="mobileMenuBtn" class="mobile-menu-btn">
+    <i class="fas fa-bars"></i>
+</button>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Acadepass</span>
+            </a>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-book"></i> MBBS BOOKS</a></li>
+                    <li><a href="nle-pass.html"><i class="fas fa-stethoscope"></i> NLE PASS</a></li>
+                    <li><a href="hsk-pass.html"><i class="fas fa-language"></i> HSK PASS</a></li>
+                    <li><a href="english-pass.html"><i class="fas fa-book"></i> English PASS</a></li>
+                </ul>
+            </nav>
+            
+            <div class="auth-buttons">
+                <button class="btn btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Log In</button>
+                <button class="btn btn-signup" id="signupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
+            </div>
+        </div>
+    </header>
+	<div id="mobileMenu" class="mobile-menu">
+    <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="nle-pass.html"><i class="fas fa-stethoscope"></i> NLE PASS</a></li>
+        <li><a href="hsk-pass.html"><i class="fas fa-language"></i> HSK PASS</a></li>
+        <li><a href="english-pass.html"><i class="fas fa-book"></i> English PASS</a></li>
+        <li><a href="subscription.html"><i class="fas fa-crown"></i> Subscription</a></li>
+    </ul>
+</div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Master Your Exams with Acadepass</h1>
+            <p>Premium preparation for NLE, HSK, and English certification exams</p>
+            
+            <div class="hero-btns">
+                <button class="btn btn-primary">Start Learning Now</button>
+                <button class="btn btn-secondary">View Courses</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Courses Section -->
+    <section class="courses">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Premium Courses</h2>
+                <p>Choose the right program for your learning goals and career advancement</p>
+            </div>
+            
+            <div class="course-grid">
+                <!-- NLE PASS Course -->
+                <div class="course-card">
+                    <div class="badge">Most Popular</div>
+                    <div class="course-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1581595219318-a04e8b1e4f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); background-size: cover;"></div>
+                    <div class="course-content">
+                        <h3>NLE PASS Program</h3>
+                        <p>Comprehensive preparation for the Nursing Licensure Examination</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 200+ Video Lectures</li>
+                            <li><i class="fas fa-check-circle"></i> 5,000+ Practice Questions</li>
+                            <li><i class="fas fa-check-circle"></i> Live Q&A Sessions</li>
+                            <li><i class="fas fa-check-circle"></i> Mock Exams with Analysis</li>
+                        </ul>
+                        <div class="price">Rs.3,999 <span>Rs.6,500</span></div>
+                        <button class="btn btn-primary" style="width: 100%;">Enroll Now</button>
+                    </div>
+                </div>
+                
+                <!-- HSK PASS Course -->
+                <div class="course-card">
+                    <div class="course-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1544866092-1935c5ef2a8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); background-size: cover;"></div> <div class="course-content">
+                        <h3>HSK PASS Program</h3>
+                        <p>Master Chinese language from HSK 1 to HSK 6 proficiency</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> 6-Level Curriculum</li>
+                            <li><i class="fas fa-check-circle"></i> Native Speaker Audio Lessons</li>
+                            <li><i class="fas fa-check-circle"></i> Character Writing Practice</li>
+                            <li><i class="fas fa-check-circle"></i> Cultural Insights</li>
+                        </ul>
+                        <div class="price">Rs.2,999 <span>Rs.4,500</span></div>
+                        <button class="btn btn-primary" style="width: 100%;">Enroll Now</button>
+                    </div>
+                </div>
+                
+                <!-- English PASS Course -->
+                <div class="course-card">
+                    <div class="badge">New</div>
+                    <div class="course-img" style="background: linear-gradient(rgba(0,0,0,0.3), url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'); background-size: cover;"></div>
+                    <div class="course-content">
+                        <h3>English PASS Program</h3>
+                        <p>Comprehensive English mastery from grammar to business communication</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Grammar & Vocabulary</li>
+                            <li><i class="fas fa-check-circle"></i> Pronunciation Training</li>
+                            <li><i class="fas fa-check-circle"></i> Business Communication</li>
+                            <li><i class="fas fa-check-circle"></i> IELTS/TOEFL Preparation</li>
+                        </ul>
+                        <div class="price">Rs.2,499 <span>Rs.3,800</span></div>
+                        <button class="btn btn-primary" style="width: 100%;">Enroll Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Ads Section -->
+    <section class="container">
+        <div class="ads">
+            <h2>Special Offer: 30% Discount!</h2>
+            <p>Subscribe to our annual plan today and save big on all courses. Limited time offer for new students only.</p>
+            <button class="btn btn-primary">Get Discount Now</button>
+        </div>
+    </section>
+    
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>What our students say about their learning experience</p>
+            </div>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"The NLE PASS program Ne Mere Ko Zero Se Hero Bana Daala. Phely Mei Sarak Chaap Wela Kehlata Tha
+Thank You Sir Sadiq Faizi."</p>
+                    </div>
+                    <div class="user">
+                        <div class="user-avatar">IFTI</div>
+                        <div class="user-info">
+                            <h4>Dr.Iftikhar</h4>
+                            <p>MBBS</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Mujhe HSK4 Pass karna tha par mujhe samjh nhi arha tha k kaise pass karon. kiyu k hsk4 k bagair degree milna mumkin nhi tha. Aba bhi galiya deta tha phir maine Sir Sadiq Faizi k website acadepass ka visit kiya. aaj mei house job kar raha hun
+THANK YOU SIR FAIZI."</p> </div>
+                    <div class="user">
+                        <div class="user-avatar">DR</div>
+                        <div class="user-info">
+                            <h4>Shehbaz Ali</h4>
+                            <p>MBBS, Graduate</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Yaar Sir Faizi k lectures ne Mujhe aaj NLE pass Karwa Diya. Ghar waly Sabzi ki dukaan pe bithane lagy thy.
+THANK YOU SIR"</p>
+                    </div>
+                    <div class="user">
+                        <div class="user-avatar">ALI</div>
+                        <div class="user-info">
+                            <h4>Dr.Rashid Ali</h4>
+                            <p>Graduate Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+	<button id="backToTop" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Acadepass</h3>
+                    <p>Your partner in exam preparation and language learning success.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="nle-pass.html">NLE PASS</a></li>
+                        <li><a href="hsk-pass.html">HSK PASS</a></li>
+                        <li><a href="english-pass.html">English PASS</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Study Guides</a></li>
+                        <li><a href="#">Practice Tests</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> info@acadepass.com</li>
+                        <li><i class="fas fa-phone"></i> +86 186 3122 0252</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Acadepass. All rights reserved.</p><p>DEVOLOPED BY IFTI</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Login to Your Account</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" style="width: 100%;">Login</button>
+                </div>
+                
+                <p style="text-align: center; margin-top: 20px;">
+                    <a href="#" style="color: var(--primary);">Forgot Password?</a>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="signup.html" style="color: var(--primary); font-weight: bold;">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

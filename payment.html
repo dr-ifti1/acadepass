@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | Acadepass</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/payment.css">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <!-- Header (Same as other pages) -->
+    
+    <main class="payment-section">
+        <div class="container payment-container">
+            <div class="payment-header">
+                <h1>Complete Your Subscription</h1>
+                <p>Choose your preferred payment method to access premium content</p>
+            </div>
+            
+            <div class="payment-summary">
+                <div class="summary-item">
+                    <span>Subscription:</span>
+                    <span>Premium Annual Plan</span>
+                </div>
+                <div class="summary-item">
+                    <span>Price:</span>
+                    <span class="price">Rs.6,999.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span class="price">Rs.6,999.00</span>
+                </div>
+            </div>
+            
+            <div id="payment-errors" class="payment-errors" style="display: none;"></div>
+            
+            <form id="paymentForm" class="payment-form">
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="card">Credit/Debit Card</option>
+                        <option value="mobile">Mobile Wallet</option>
+                    </select>
+                </div>
+                
+                <!-- Card Payment Section -->
+                <div id="cardDetails" class="payment-section-details">
+                    <div class="form-group">
+                        <label for="cardName">Name on Card</label>
+                        <input type="text" id="cardName" placeholder="Full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Card Details</label>
+                        <div id="card-element" class="stripe-card-element"></div>
+                        <div id="card-errors" role="alert" class="payment-error"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cardEmail">Email</label>
+                            <input type="email" id="cardEmail" placeholder="Email for receipt" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardPhone">Phone</label>
+                            <input type="tel" id="cardPhone" placeholder="Phone number" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Wallet Section -->
+                <div id="mobileWalletDetails" class="payment-section-details">
+                    <div class="form-group">
+                        <label for="mobileWalletType">Select Wallet</label>
+                        <select id="mobileWalletType" required>
+                            <option value="">Select Wallet</option>
+                            <option value="jazzcash">JazzCash</option>
+                            <option value="easypaisa">EasyPaisa</option>
+                            <option value="upaisa">U Paisa</option>
+                            <option value="alipay">Alipay</option>
+                            <option value="wechatpay">WeChat Pay</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mobilePhone">Phone Number</label>
+                        <input type="tel" id="mobilePhone" placeholder="Wallet-registered phone number" required>
+                    </div>
+                    
+                    <!-- JazzCash Specific -->
+                    <div id="jazzcash-details" class="wallet-specific">
+                        <div class="form-group">
+                            <label for="jazzcash-account">JazzCash Account Number (optional)</label>
+                            <input type="text" id="jazzcash-account" placeholder="Account number if different">
+                        </div>
+                        <p class="wallet-info">
+                            <i class="fas fa-info-circle"></i> You'll be redirected to JazzCash to complete payment
+                        </p>
+                    </div>
+                    
+                    <!-- EasyPaisa Specific -->
+                    <div id="easypaisa-details" class="wallet-specific">
+                        <div class="form-group">
+                            <label for="easypaisa-account">EasyPaisa Account Number (optional)</label>
+                            <input type="text" id="easypaisa-account" placeholder="Account number if different">
+                        </div>
+                        <p class="wallet-info">
+                            <i class="fas fa-info-circle"></i> Complete payment through EasyPaisa app
+                        </p>
+                    </div>
+                    
+                    <!-- U Paisa Specific -->
+                    <div id="upaisa-details" class="wallet-specific">
+                        <div class="form-group">
+                            <label for="upaisa-account">U Paisa Account Number (optional)</label>
+                            <input type="text" id="upaisa-account" placeholder="Account number if different">
+                        </div>
+                        <p class="wallet-info">
+                            <i class="fas fa-info-circle"></i> You'll receive a payment request on your U Paisa app
+                        </p>
+                    </div>
+                    
+                    <!-- Alipay Specific -->
+                    <div id="alipay-details" class="wallet-specific">
+                        <div class="form-group">
+                            <label for="alipay-account">Alipay Account</label>
+                            <input type="text" id="alipay-account" placeholder="Alipay account ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="alipay-qr">Scan to Pay</label>
+                            <img src="images/alipay-qr-placeholder.jpg" alt="Alipay QR Code" class="qr-code">
+                        </div>
+                    </div>
+                    
+                    <!-- WeChat Pay Specific -->
+                    <div id="wechatpay-details" class="wallet-specific">
+                        <div class="form-group">
+                            <label for="wechatpay-account">WeChat Pay Account</label>
+                            <input type="text" id="wechatpay-account" placeholder="WeChat Pay account ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wechatpay-qr">Scan to Pay</label>
+                            <img src="images/wechatpay-qr-placeholder.jpg" alt="WeChat Pay QR Code" class="qr-code">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-pay">
+                    <i class="fas fa-lock"></i> Complete Payment - Rs.6,999.00
+                </button>
+            </form>
+            
+            <div class="payment-security">
+                <p><i class="fas fa-shield-alt"></i> Secure Payment</p>
+                <div class="security-badges">
+                    <img src="images/pci-dss.svg" alt="PCI DSS Compliant">
+                    <img src="images/ssl-secure.svg" alt="SSL Secure">
+                    <img src="images/encryption.svg" alt="256-bit Encryption">
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer (Same as other pages) -->
+    
+    <script src="js/payment.js" type="module"></script>
+</body>
+</html>

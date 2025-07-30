@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acadepass Media Player</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text: #333;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            padding: 25px;
+            background: rgba(10, 10, 20, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: var(--success);
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .course-title {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .course-title i {
+            color: var(--accent);
+            margin-right: 8px;
+        }
+
+        .content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 15, 30, 0.7);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .module {
+            margin-bottom: 25px;
+        }
+
+        .module-title {
+            padding: 12px 20px;
+            background: rgba(67, 97, 238, 0.2);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .module-title i {
+            color: var(--primary);
+        }
+
+        .lecture-list {
+            padding: 10px 0;
+        }
+
+        .lecture {
+            padding: 12px 20px 12px 45px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .lecture:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lecture.active {
+            background: rgba(67, 97, 238, 0.15);
+            border-left: 3px solid var(--accent);
+        }
+
+        .lecture i {
+            color: var(--success);
+            font-size: 18px;
+        }
+
+        .lecture .type-icon {
+            width: 28px;
+            height: 28px;
+            background: rgba(76, 201, 240, 0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lecture .duration {
+            margin-left: auto;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+        }
+
+        .player-container {
+            background: rgba(10, 10, 20, 0.6);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #000;
+        }
+
+        .audio-container {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .audio-cover {
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .audio-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .player-controls {
+            background: rgba(26, 26, 46, 0.9);
+            padding: 15px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+            width: 0%;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-controls, .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .center-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .play-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .volume-level {
+            height: 100%;
+            background: var(--success);
+            border-radius: 3px;
+            width: 80%;
+        }
+
+        .speed-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .lecture-info {
+            margin-bottom: 25px;
+        }
+
+        .lecture-info h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .lecture-info p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .resources {
+            background: rgba(10, 10, 20, 0.6);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: auto;
+        }
+
+        .resources h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--success);
+        }
+
+        .resource-list {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .resource-item {
+            background: rgba(67, 97, 238, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .resource-item:hover {
+            background: rgba(67, 97, 238, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(76, 201, 240, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--success);
+        }
+
+        .resource-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .resource-info p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .fullscreen-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 300px;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .video-container {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .video-container {
+                height: 250px;
+            }
+            
+            .control-buttons {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .center-controls {
+                order: -1;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .left-controls, .right-controls {
+                gap: 10px;
+            }
+            
+            .resource-list {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Acadepass</h1>
+            </div>
+            <div class="course-title">
+                <i class="fas fa-stethoscope"></i>
+                NLE PASS Program - Module 3: Pharmacology
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="sidebar">
+                <div class="module">
+                    <div class="module-title">
+                        <i class="fas fa-folder-open"></i>
+                        Module 1: Introduction to NLE
+                    </div>
+                    <div class="lecture-list">
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div>Introduction to Nursing Exams</div>
+                            <div class="duration">12:45</div>
+                        </div>
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div>Study Guide & Resources</div>
+                            <div class="duration">PDF</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="module">
+                    <div class="module-title">
+                        <i class="fas fa-folder-open"></i>
+                        Module 2: Anatomy & Physiology
+                    </div>
+                    <div class="lecture-list">
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div>Cardiovascular System</div>
+                            <div class="duration">18:32</div>
+                        </div>
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div>Respiratory System Review</div>
+                            <div class="duration">24:15</div>
+                        </div>
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div>Practice Questions</div>
+                            <div class="duration">PDF</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="module">
+                    <div class="module-title">
+                        <i class="fas fa-folder-open"></i>
+                        Module 3: Pharmacology
+                    </div>
+                    <div class="lecture-list">
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-headphones"></i>
+                            </div>
+                            <div>Pharmacokinetics Basics</div>
+                            <div class="duration">16:40</div>
+                        </div>
+                        <div class="lecture active">
+                            <div class="type-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div>Cardiovascular Drugs</div>
+                            <div class="duration">22:18</div>
+                        </div>
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div>Antibiotics & Antivirals</div>
+                            <div class="duration">19:05</div>
+                        </div>
+                        <div class="lecture">
+                            <div class="type-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div>Drug Classifications Cheat Sheet</div>
+                            <div class="duration">PDF</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="main-content">
+                <div class="player-container">
+                    <!-- Video Player -->
+                    <div class="video-container">
+                        <video id="videoPlayer" class="video-player" poster="https://images.unsplash.com/photo-1581595219318-a04e8b1e4f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+                            <source src="#" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <button class="fullscreen-btn" id="fullscreenBtn">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Audio Player (hidden by default) -->
+                    <div class="audio-container" style="display: none;">
+                        <div class="audio-cover">
+                            <img src="https://images.unsplash.com/photo-1581595219318-a04e8b1e4f7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Lecture Cover">
+                        </div>
+                        <audio id="audioPlayer" class="audio-player">
+                            <source src="#" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    
+                    <div class="player-controls">
+                        <div class="progress-container" id="progressContainer">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="time-display">
+                            <span id="currentTime">0:00</span>
+                            <span id="duration">0:00</span>
+                        </div>
+                        <div class="control-buttons">
+                            <div class="left-controls">
+                                <button class="control-btn" id="prevBtn">
+                                    <i class="fas fa-step-backward"></i>
+                                </button>
+                                <button class="control-btn" id="playBtn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="control-btn" id="nextBtn">
+                                    <i class="fas fa-step-forward"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="center-controls">
+                                <button class="play-btn" id="mainPlayBtn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="right-controls">
+                                <div class="volume-container">
+                                    <button class="control-btn" id="volumeBtn">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <div class="volume-slider" id="volumeSlider">
+                                        <div class="volume-level" id="volumeLevel"></div>
+                                    </div>
+                                </div>
+                                <select class="speed-select" id="speedSelect">
+                                    <option value="0.5">0.5x</option>
+                                    <option value="0.75">0.75x</option>
+                                    <option value="1" selected>1x</option>
+                                    <option value="1.25">1.25x</option>
+                                    <option value="1.5">1.5x</option>
+                                    <option value="2">2x</option>
+                                </select>
+                                <button class="control-btn" id="downloadBtn">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lecture-info">
+                    <h2>Cardiovascular Drugs</h2>
+                    <p>This lecture covers the essential cardiovascular drugs that every nursing professional must know. We'll explore antihypertensives, antianginal drugs, heart failure medications, and anticoagulants. Learn about mechanisms of action, therapeutic uses, side effects, and nursing considerations for each drug class.</p>
+                    <p>Key topics include ACE inhibitors, beta-blockers, calcium channel blockers, diuretics, nitrates, and statins. Understanding these medications is crucial for the NLE exam and your nursing career.</p>
+                </div>
+                
+                <div class="resources">
+                    <h3><i class="fas fa-paperclip"></i> Lecture Resources</h3>
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-file-pdf"></i>
+                            </div>
+                            <div class="resource-info">
+                                <h4>Drugs Cheat Sheet</h4>
+                                <p>PDF • 1.2 MB</p>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="resource-info">
+                                <h4>Practice Questions</h4>
+                                <p>PDF • 0.8 MB</p>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="resource-info">
+                                <h4>Pharmacology Charts</h4>
+                                <p>PDF • 1.5 MB</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Media elements
+            const videoPlayer = document.getElementById('videoPlayer');
+            const audioPlayer = document.getElementById('audioPlayer');
+            const playerContainer = document.querySelector('.player-container');
+            
+            // Buttons
+            const playBtn = document.getElementById('playBtn');
+            const mainPlayBtn = document.getElementById('mainPlayBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const volumeBtn = document.getElementById('volumeBtn');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Progress elements
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeDisplay = document.getElementById('currentTime');
+            const durationDisplay = document.getElementById('duration');
+            
+            // Volume elements
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeLevel = document.getElementById('volumeLevel');
+            
+            // Speed control
+            const speedSelect = document.getElementById('speedSelect');
+            
+            // For demo purposes, we'll simulate media playback
+            let isPlaying = false;
+            let isVideoMode = true;
+            let currentVolume = 0.8;
+            let currentTime = 0;
+            let duration = 1338; // 22:18 in seconds
+            
+            // Initialize UI
+            updateVolumeUI();
+            updateTimeUI();
+            
+            // Play/Pause functionality
+            function togglePlay() {
+                isPlaying = !isPlaying;
+                updatePlayButton();
+                
+                if (isPlaying) {
+                    // Simulate playback
+                    simulatePlayback();
+                }
+            }
+            
+            function updatePlayButton() {
+                const icon = isPlaying ? 'pause' : 'play';
+                playBtn.innerHTML = `<i class="fas fa-${icon}"></i>`;
+                mainPlayBtn.innerHTML = `<i class="fas fa-${icon}"></i>`;
+            }
+            
+            function simulatePlayback() {
+                if (!isPlaying) return;
+                
+                // Simulate time progression
+                if (currentTime < duration) {
+                    currentTime += 1;
+                    updateTimeUI();
+                    
+                    // Update progress bar
+                    const progressPercent = (currentTime / duration) * 100;
+                    progressBar.style.width = `${progressPercent}%`;
+                    
+                    setTimeout(simulatePlayback, 1000);
+                } else {
+                    // End of media
+                    isPlaying = false;
+                    updatePlayButton();
+                    currentTime = 0;
+                    updateTimeUI();
+                    progressBar.style.width = '0%';
+                }
+            }
+            
+            // Progress bar interaction
+            progressContainer.addEventListener('click', (e) => {
+                const rect = progressContainer.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                currentTime = duration * pos;
+                updateTimeUI();
+                
+                const progressPercent = (currentTime / duration) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+            });
+            
+            // Volume control
+            volumeSlider.addEventListener('click', (e) => {
+                const rect = volumeSlider.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                currentVolume = Math.max(0, Math.min(1, pos));
+                updateVolumeUI();
+            });
+            
+            function updateVolumeUI() {
+                volumeLevel.style.width = `${currentVolume * 100}%`;
+                const volumeIcon = currentVolume === 0 ? 'volume-mute' : 
+                                  currentVolume < 0.5 ? 'volume-down' : 'volume-up';
+                volumeBtn.innerHTML = `<i class="fas fa-${volumeIcon}"></i>`;
+            }
+            
+            // Speed control
+            speedSelect.addEventListener('change', () => {
+                // In a real app: videoPlayer.playbackRate = speedSelect.value;
+                // For demo: just show a message
+                showMessage(`Playback speed set to ${speedSelect.value}x`);
+            });
+            
+            // Time display formatting
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            function updateTimeUI() {
+                currentTimeDisplay.textContent = formatTime(currentTime);
+                durationDisplay.textContent = formatTime(duration);
+            }
+            
+            // Fullscreen functionality
+            fullscreenBtn.addEventListener('click', () => {
+                if (isVideoMode) {
+                    // In a real app: 
+                    // if (document.fullscreenElement) {
+                    //     document.exitFullscreen();
+                    // } else {
+                    //     videoPlayer.requestFullscreen();
+                    // }
+                    
+                    // For demo: show a message
+                    showMessage("Fullscreen mode toggled");
+                }
+            });
+            
+            // Download functionality
+            downloadBtn.addEventListener('click', () => {
+                showMessage("Lecture download started");
+            });
+            
+            // Navigation buttons
+            prevBtn.addEventListener('click', () => {
+                showMessage("Previous lecture loaded");
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                showMessage("Next lecture loaded");
+            });
+            
+            // Toggle between audio/video
+            function toggleMediaType() {
+                isVideoMode = !isVideoMode;
+                
+                if (isVideoMode) {
+                    document.querySelector('.video-container').style.display = 'block';
+                    document.querySelector('.audio-container').style.display = 'none';
+                } else {
+                    document.querySelector('.video-container').style.display = 'none';
+                    document.querySelector('.audio-container').style.display = 'flex';
+                }
+            }
+            
+            // For demo: simulate switching to audio
+            document.querySelectorAll('.lecture .type-icon').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const isAudio = this.querySelector('i').classList.contains('fa-headphones');
+                    if (isAudio !== isVideoMode) {
+                        toggleMediaType();
+                    }
+                });
+            });
+            
+            // Event listeners
+            playBtn.addEventListener('click', togglePlay);
+            mainPlayBtn.addEventListener('click', togglePlay);
+            
+            // Helper function to show messages
+            function showMessage(text) {
+                // Create message element
+                const message = document.createElement('div');
+                message.textContent = text;
+                message.style.position = 'fixed';
+                message.style.bottom = '20px';
+                message.style.left = '50%';
+                message.style.transform = 'translateX(-50%)';
+                message.style.backgroundColor = 'var(--accent)';
+                message.style.color = 'white';
+                message.style.padding = '12px 25px';
+                message.style.borderRadius = '30px';
+                message.style.zIndex = '1000';
+                message.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.3)';
+                message.style.animation = 'fadeInOut 3s forwards';
+                
+                document.body.appendChild(message);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    message.remove();
+                }, 2800);
+            }
+            
+            // Add CSS for fade animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; bottom: 0; }
+                    10% { opacity: 1; bottom: 20px; }
+                    90% { opacity: 1; bottom: 20px; }
+                    100% { opacity: 0; bottom: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
